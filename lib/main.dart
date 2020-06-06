@@ -7,6 +7,7 @@ import 'dart:async';
 import 'insert.dart';
 import 'delete.dart';
 import 'update.dart';
+import 'select.dart';
 
 void main() => runApp(MyApp());
 
@@ -124,7 +125,7 @@ class _myHomePageState extends State<homePage> {
               DataCell(IconButton(
                 icon: Icon(Icons.update),
                 onPressed: () {
-                  bdHelper.update(student.controlum);
+                 ( bdHelper.update(student.controlum);)
                   refreshList();
                 },
               ))*/
@@ -192,7 +193,14 @@ class _myHomePageState extends State<homePage> {
                     context, MaterialPageRoute(builder: (context) => Update()));
               },
             ),
-
+            ListTile(
+              leading: Icon(Icons.search),
+              title: Text('BUSCAR DATOS'),
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Select()));
+              },
+            ),
             ListTile(
               leading: Icon(Icons.delete),
               title: Text('ELIMINAR DATOS'),

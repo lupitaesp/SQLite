@@ -32,29 +32,39 @@ class _myHomePageState extends State<Select> {
   var dbHelper;
   bool isUpdating;
 
+  /*String search = "";
+  bool _Searching = false;*/
+  TextEditingController searchController = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
     dbHelper = DBHelper();
     isUpdating = false;
-    refreshList();
+   refreshList();
   }
 
   //select
   void refreshList() {
     setState(() {
-      Studentss = dbHelper.getStudents();
+      Studentss = dbHelper.select(searchController.text);
     });
   }
+  /*void refreshLists() {
+    setState(() {
+      Studentss = dbHelper.getStudents();
+    });
+  }*/
+
+
+
+
 
   void cleanData() {
-   // Lo que vamos a utilizar
+    // Lo que vamos a utilizar
+    searchController.text = "";
   }
-
-
-
-
-
 
 //Mostrar datos
   SingleChildScrollView dataTable(List<Student> Studentss) {
@@ -62,6 +72,9 @@ class _myHomePageState extends State<Select> {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columns: [
+          DataColumn(
+            label: Text("Matricula"),
+          ),
           DataColumn(
             label: Text("Nombre"),
           ),
@@ -71,9 +84,7 @@ class _myHomePageState extends State<Select> {
           DataColumn(
             label: Text("A. Materno"),
           ),
-          DataColumn(
-            label: Text("Matricula"),
-          ),
+
           DataColumn(
             label: Text("E-mail"),
           ),
@@ -81,11 +92,17 @@ class _myHomePageState extends State<Select> {
             label: Text("Telefono"),
           ),
         ],
-        rows: Studentss.map((student) =>
-            DataRow(cells: [
+        rows: Studentss.map((student) => DataRow(cells: [
+
               //NOMBRE 1
-              DataCell(Text(student.name.toString().toUpperCase()),
-                  onTap: () {
+          DataCell(Text(student.mat.toString().toUpperCase()), onTap: () {
+            setState(() {
+              isUpdating = true;
+              currentUserId = student.controlum;
+            });
+            controller6.text = student.mat;
+          }),
+              DataCell(Text(student.name.toString().toUpperCase()), onTap: () {
                 setState(() {
                   isUpdating = true;
                   currentUserId = student.controlum;
@@ -93,13 +110,13 @@ class _myHomePageState extends State<Select> {
                 controller1.text = student.name;
               }),
               //APELLIDO PATERNO 2
-              DataCell(Text(student.surname.toString().toUpperCase()), onTap: () {
+              DataCell(Text(student.surname.toString().toUpperCase()),
+                  onTap: () {
                 setState(() {
                   isUpdating = true;
                   currentUserId = student.controlum;
-
                 });
-                controller2.text= student.surname;
+                controller2.text = student.surname;
               }),
               //APELLIDO MATERNO 3
               DataCell(Text(student.ap.toString().toUpperCase()), onTap: () {
@@ -107,16 +124,10 @@ class _myHomePageState extends State<Select> {
                   isUpdating = true;
                   currentUserId = student.controlum;
                 });
-                controller5.text= student.ap;
+                controller5.text = student.ap;
               }),
               //TELEFONO 4
-              DataCell(Text(student.mat.toString().toUpperCase()), onTap: () {
-                setState(() {
-                  isUpdating = true;
-                  currentUserId = student.controlum;
-                });
-                controller6.text = student.mat;
-              }),
+
               DataCell(Text(student.mail.toString().toUpperCase()), onTap: () {
                 setState(() {
                   isUpdating = true;
@@ -157,11 +168,31 @@ class _myHomePageState extends State<Select> {
   Widget build(BuildContext context) {
 // TODO: implement build
     return new Scaffold(
-      resizeToAvoidBottomInset: false,   //new line
+      resizeToAvoidBottomInset: false, //new line
       appBar: new AppBar(
-        title: Text('Busqueda'),
+        /* title: Text('Busqueda'),
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
+      ),*/
+        title: isUpdating ? TextField(
+         autofocus: true,
+         controller: searchController,
+          onChanged: (text){
+           refreshList();
+          })
+        : Text("Buscando por matricula"),
+        leading: IconButton(
+          icon: Icon(isUpdating ? Icons.done: Icons.search),
+          onPressed: (){
+            print("Is typing"+ isUpdating.toString());
+            setState(() {
+              isUpdating = !isUpdating;
+              searchController.text = "";
+            });
+          },
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.deepPurple,
       ),
       body: new Container(
         child: new Column(

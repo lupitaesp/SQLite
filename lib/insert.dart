@@ -44,7 +44,7 @@ class _Insertar extends State<insert> {
     });
   }
 
- /* void guardar(){
+  /* void guardar(){
     setState(() {
       _snack(context,"Datos guardados!");
     });
@@ -59,8 +59,7 @@ class _Insertar extends State<insert> {
     controller6.text = "";
   }
 
-
-  void dataValidate() async{
+  void dataValidate() async {
     if (formkey.currentState.validate()) {
       formkey.currentState.save();
       if (isUpdating) {
@@ -76,30 +75,28 @@ class _Insertar extends State<insert> {
         print(validation);
         if (validation) {
           bdHelper.insert(stu);
-            final snackbar = SnackBar(
-              content: new Text("DATOS INGRESADOS!"),
-              backgroundColor: Colors.deepPurple,
-            );
-            _scaffoldkey.currentState.showSnackBar(snackbar);
-        }else{
-        final snackbar = SnackBar(
-          content: new Text("LA MATRICULA YA FUE REGISTRADA!"),
-          backgroundColor: Colors.deepPurple,
-        );
-        _scaffoldkey.currentState.showSnackBar(snackbar);
-      }
+          final snackbar = SnackBar(
+            content: new Text("DATOS INGRESADOS!"),
+            backgroundColor: Colors.deepPurple,
+          );
+          _scaffoldkey.currentState.showSnackBar(snackbar);
+        } else {
+          final snackbar = SnackBar(
+            content: new Text("LA MATRICULA YA FUE REGISTRADA!"),
+            backgroundColor: Colors.deepPurple,
+          );
+          _scaffoldkey.currentState.showSnackBar(snackbar);
+        }
       }
       cleanData();
       refreshList();
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:  _scaffoldkey,
+      key: _scaffoldkey,
       appBar: new AppBar(
         title: Text("Insertar Datos "),
         centerTitle: true,
@@ -142,7 +139,8 @@ class _Insertar extends State<insert> {
                   controller: controller6,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(labelText: "Student ID"),
-                  validator: (val) => val.length < 10 ? 'Enter student id' : null,
+                  validator: (val) =>
+                      val.length < 10 ? 'Enter student id' : null,
                   onSaved: (val) => mat = val,
                 ),
                 TextFormField(
@@ -179,7 +177,6 @@ class _Insertar extends State<insert> {
                           isUpdating = false;
                         });
                         cleanData();
-
                       },
                       child: Text('Cancel'),
                     )
@@ -192,5 +189,4 @@ class _Insertar extends State<insert> {
       ),
     );
   }
-
 }
